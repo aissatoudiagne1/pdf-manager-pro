@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Manager Pro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
+:root{
+  --p1:#6c63ff;--p2:#a78bfa;--p3:#ede9fe;
+  --g1:#10b981;--g2:#d1fae5;
+  --r1:#f43f5e;--r2:#ffe4e6;
+  --o1:#f59e0b;--o2:#fef3c7;
+  --b1:#3b82f6;--b2:#dbeafe;
+  --pk1:#ec4899;--pk2:#fce7f3;
+  --bg:#f5f3ff;--white:#fff;
+  --border:#e5e7eb;--text:#1e1b4b;--muted:#6b7280;
+  --grad:linear-gradient(135deg,#6c63ff,#a78bfa);
+}
+body{background:var(--bg);min-height:100vh}
+
+/* ── BOUTONS ── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.btn-grad{background:var(--grad);color:#fff}
+.btn-green{background:var(--g1);color:#fff}
+.btn-red{background:var(--r1);color:#fff}
+.btn-gold{background:var(--o1);color:#fff}
+.btn-blue{background:var(--b1);color:#fff}
+.btn-pink{background:var(--pk1);color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--p1);color:var(--p1)}
+.btn-outline:hover{background:var(--p3)}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:8px}
+.btn-white{background:#fff;color:var(--p1);font-weight:700}
+.btn-white:hover{background:var(--p3)}
+
+/* ── LANDING ── */
+#landing{display:flex;flex-direction:column;min-height:100vh}
+.land-nav{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 40px;height:66px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.logo{width:40px;height:40px;background:var(--grad);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;box-shadow:0 4px 12px rgba(108,99,255,.4)}
+.brand{font-weight:800;font-size:18px;color:var(--text)}
+.land-nav .nav-right{margin-left:auto;display:flex;gap:10px}
+
+.hero{background:var(--grad);padding:80px 24px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 60%)}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:24px;border:1px solid rgba(255,255,255,.3)}
+.hero h1{font-size:54px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,.2)}
+.hero p{font-size:18px;color:rgba(255,255,255,.85);max-width:540px;margin:0 auto 40px;line-height:1.7}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+.features-section{padding:60px 24px;max-width:900px;margin:0 auto}
+.section-title{text-align:center;font-size:28px;font-weight:800;color:var(--text);margin-bottom:8px}
+.section-sub{text-align:center;color:var(--muted);font-size:15px;margin-bottom:36px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;transition:.2s}
+.feat:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(108,99,255,.12)}
+.feat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.feat p{font-size:13px;color:var(--muted);line-height:1.6}
+
+.ops-section{background:var(--white);padding:60px 24px}
+.ops-inner{max-width:900px;margin:0 auto}
+.ops-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ops-card{border-radius:16px;padding:24px;text-align:center;transition:.2s;cursor:pointer}
+.ops-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,.1)}
+.ops-card .ic{width:52px;height:52px;border-radius:14px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.5)}
+.ops-card h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.ops-card p{font-size:12px;opacity:.8}
+
+/* ── LOGIN ── */
+#login-page{display:none;min-height:100vh;background:var(--bg);align-items:center;justify-content:center}
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.login-box{background:var(--white);border-radius:24px;padding:44px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(108,99,255,.15);border:1px solid var(--border)}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.login-box h2{font-size:26px;font-weight:800;color:var(--text);margin-bottom:6px}
+.login-box .sub{color:var(--muted);font-size:14px;margin-bottom:24px}
+.hint{background:linear-gradient(135deg,var(--p3),#ede9fe);border:1px solid var(--p2);border-radius:12px;padding:14px;font-size:13px;color:var(--text);margin-bottom:20px}
+.hint b{color:var(--p1)}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-group input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);outline:none;transition:.2s}
+.form-group input:focus{border-color:var(--p1);box-shadow:0 0 0 4px var(--p3)}
+.login-link{text-align:center;margin-top:14px;font-size:13px;color:var(--muted)}
+.login-link a{color:var(--p1);font-weight:600;text-decoration:none}
+
+/* ── APP ── */
+#app{display:none;min-height:100vh;flex-direction:column}
+.app-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:62px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.app-nav .brand{font-weight:800;color:var(--text)}
+.rbadge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.rb-admin{background:linear-gradient(135deg,#ff6b6b,#feca57);color:#fff}
+.rb-client{background:var(--grad);color:#fff}
+.app-nav .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.user-txt{font-size:13px;color:var(--muted);font-weight:500}
+
+.app-body{display:flex;flex:1}
+.sidebar{width:230px;background:var(--white);border-right:1px solid var(--border);padding:20px 12px;min-height:calc(100vh - 62px);flex-shrink:0}
+.sb-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:10px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);transition:.15s;margin-bottom:3px}
+.nav-item:hover{background:var(--p3);color:var(--p1)}
+.nav-item.active{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(108,99,255,.35)}
+.nav-item.active .ndot{background:#fff}
+.ndot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:.15s}
+
+.main{flex:1;padding:32px;overflow-y:auto;background:var(--bg)}
+.page{display:none}
+.page.active{display:block}
+.ptitle{font-size:24px;font-weight:800;color:var(--text);margin-bottom:4px}
+.psub{font-size:14px;color:var(--muted);margin-bottom:28px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat{background:var(--white);border-radius:16px;padding:22px;border:1px solid var(--border);transition:.2s}
+.stat:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.stat-ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.stat-v{font-size:32px;font-weight:800;color:var(--text)}
+.stat-l{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* ── DROP ZONE ── */
+.drop-zone{background:var(--white);border:3px dashed var(--p2);border-radius:20px;padding:52px;text-align:center;cursor:pointer;transition:.3s;margin-bottom:24px;position:relative}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--p1);background:var(--p3);transform:scale(1.01)}
+.dz-icon{width:68px;height:68px;background:var(--grad);border-radius:18px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(108,99,255,.35)}
+.dz-h{font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px}
+.dz-p{font-size:13px;color:var(--muted)}
+.upload-progress{display:none;position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--p3);border-radius:0 0 20px 20px}
+.upload-bar{height:100%;background:var(--grad);border-radius:0 0 20px 20px;width:0;transition:width .3s}
+
+/* ── FILE CARDS ── */
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.file-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;transition:.2s}
+.file-card:hover{border-color:var(--p1);transform:translateY(-2px);box-shadow:0 6px 16px rgba(108,99,255,.12)}
+.fc-icon{width:40px;height:40px;background:var(--r2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.fc-name{font-size:13px;font-weight:600;color:var(--text);word-break:break-all;margin-bottom:4px}
+.fc-size{font-size:11px;color:var(--muted)}
+
+/* ── OP CARDS ── */
+.ops-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.op-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:20px 12px;text-align:center;cursor:pointer;transition:.2s}
+.op-card:hover{border-color:var(--p1);transform:translateY(-3px);box-shadow:0 8px 20px rgba(108,99,255,.15)}
+.op-card.active{border-color:var(--p1);background:var(--p3)}
+.oc-icon{width:48px;height:48px;border-radius:13px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center}
+.oc-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.oc-sub{font-size:11px;color:var(--muted)}
+
+/* ── PANELS ── */
+.panel{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:30px;display:none;margin-bottom:22px}
+.panel.active{display:block}
+.panel h3{font-size:18px;font-weight:800;color:var(--text);margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--p3)}
+.fr{margin-bottom:16px}
+.fr label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:7px}
+.fr input,.fr select,.fr textarea{width:100%;padding:11px 16px;border:2px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);outline:none;transition:.2s;background:var(--white)}
+.fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--p1);box-shadow:0 0 0 4px var(--p3)}
+.fr textarea{min-height:110px;resize:vertical}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── RESULT ── */
+.result-box{border-radius:12px;padding:18px;margin-top:18px;display:none;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.res-ok{background:linear-gradient(135deg,var(--g2),#ecfdf5);border-left:5px solid var(--g1)}
+.res-err{background:linear-gradient(135deg,var(--r2),#fff1f2);border-left:5px solid var(--r1)}
+.result-box p{font-size:14px;color:var(--text);font-weight:600;margin-bottom:10px}
+.result-box pre{font-size:12px;color:var(--muted);white-space:pre-wrap;max-height:200px;overflow-y:auto;background:rgba(0,0,0,.03);padding:10px;border-radius:8px}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;background:var(--grad);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;text-decoration:none;font-weight:600;margin-top:10px;transition:.2s}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(108,99,255,.4)}
+
+/* ── TABLE ── */
+.card-box{background:var(--white);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:20px}
+.cb-head{padding:18px 22px;font-weight:700;font-size:15px;color:var(--text);border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--p3),#fff)}
+.htable{width:100%;border-collapse:collapse}
+.htable th{text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--bg)}
+.htable td{padding:13px 18px;font-size:13px;color:var(--text);border-bottom:1px solid var(--border)}
+.htable tr:last-child td{border:none}
+.htable tr:hover td{background:var(--p3)}
+.badge{display:inline-flex;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.b-ok{background:var(--g2);color:#065f46}
+.b-err{background:var(--r2);color:#9f1239}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;padding:14px 24px;border-radius:14px;font-size:14px;font-weight:600;color:#fff;opacity:0;transform:translateY(12px);transition:.3s;z-index:9999;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast-ok{background:var(--g1)}
+.toast-err{background:var(--r1)}
+.toast-info{background:var(--grad)}
+
+svg{display:block;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- ══ LANDING ══════════════════════════════════════════════════════════ -->
+<div id="landing">
+  <nav class="land-nav">
+    <div class="logo">P</div>
+    <span class="brand">PDF Manager Pro</span>
+    <div class="nav-right">
+      <button class="btn btn-outline" onclick="loginDirect('client')">Espace Client</button>
+      <button class="btn btn-grad" onclick="showLogin()">Espace Admin</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-badge">✨ Propulsé par CORBA + Apache PDFBox</span>
+    <h1>Gérez vos PDFs<br>comme un Pro 🚀</h1>
+    <p>Fusionnez, découpez, extrayez et convertissez vos documents PDF avec une interface moderne, rapide et intuitive.</p>
+    <div class="hero-btns">
+      <button class="btn btn-white" onclick="loginDirect('client')" style="font-size:16px;padding:14px 32px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Accès Client — Gratuit
+      </button>
+      <button class="btn btn-outline" onclick="showLogin()" style="font-size:16px;padding:14px 32px;border-color:rgba(255,255,255,.6);color:#fff">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Espace Admin
+      </button>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <div class="section-title">Tout ce dont vous avez besoin 💡</div>
+    <div class="section-sub">Des outils PDF puissants dans une interface intuitive</div>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--p3)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--p1)" stroke-width="2"><path d="M8 6H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-3"/><rect x="8" y="2" width="8" height="6" rx="1"/></svg>
+        </div>
+        <h3>Fusion & Découpage</h3>
+        <p>Combinez plusieurs PDFs ou extrayez des pages précises en quelques secondes.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--o2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--o1)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Extraction de texte</h3>
+        <p>Extrayez instantanément le contenu textuel de n'importe quel PDF.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--g2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h3>Conversion en images</h3>
+        <p>Transformez chaque page en image PNG haute qualité (150 DPI).</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--r2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--r1)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <h3>Création de PDF</h3>
+        <p>Générez de nouveaux documents PDF depuis du texte brut en un clic.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--b2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Tableau de bord</h3>
+        <p>Suivez toutes vos opérations avec un historique détaillé en temps réel.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:var(--pk2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--pk1)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <h3>Espace Admin</h3>
+        <p>Gérez les fichiers, consultez les statistiques et administrez le système.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN ════════════════════════════════════════════════════════════ -->
+<div id="login-page">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="logo">P</div>
+        <span class="brand">PDF Manager Pro</span>
+      </div>
+      <h2>Connexion Admin 🔐</h2>
+      <p class="sub">Accédez au tableau de bord administrateur</p>
+      <div class="form-group">
+        <label>Nom d'utilisateur</label>
+        <input type="text" id="lu"  placeholder="Nom utilisateur">
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" id="lp"  placeholder="Mot de passe">
+      </div>
+      <button class="btn btn-grad" style="width:100%;justify-content:center;padding:13px;font-size:15px" onclick="doLogin()">Se connecter</button>
+      <div class="login-link"><a href="#" onclick="loginDirect('client')">→ Accéder sans compte (Client)</a></div>
+      <div class="login-link" style="margin-top:6px"><a href="#" onclick="showLanding()" style="color:var(--muted)">← Retour à l'accueil</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══════════════════════════════════════════════════════════════ -->
+<div id="app">
+  <nav class="app-nav">
+    <div class="logo">P</div>
+    <span class="brand">PDF Manager Pro</span>
+    <span class="rbadge" id="rbadge">Client</span>
+    <div class="right">
+      <span class="user-txt" id="user-txt">Connecté</span>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+  <div class="app-body">
+    <div class="sidebar">
+      <div class="sb-label">Navigation</div>
+      <div class="nav-item active" onclick="showPage('dashboard')" id="ni-dashboard">
+        <div class="ndot" style="background:var(--p1)"></div>Tableau de bord
+      </div>
+      <div class="nav-item" onclick="showPage('upload')" id="ni-upload">
+        <div class="ndot" style="background:var(--b1)"></div>Mes fichiers
+      </div>
+      <div class="nav-item" onclick="showPage('operations')" id="ni-operations">
+        <div class="ndot" style="background:var(--g1)"></div>Opérations PDF
+      </div>
+      <div class="nav-item" onclick="showPage('creer')" id="ni-creer">
+        <div class="ndot" style="background:var(--o1)"></div>Créer un PDF
+      </div>
+      <div class="nav-item" onclick="showPage('historique')" id="ni-historique">
+        <div class="ndot" style="background:var(--muted)"></div>Historique
+      </div>
+      <div id="admin-section" style="display:none">
+        <div class="sb-label" style="margin-top:12px">Administration</div>
+        <div class="nav-item" onclick="showPage('admin')" id="ni-admin">
+          <div class="ndot" style="background:var(--r1)"></div>Gestion fichiers
+        </div>
+        <div class="nav-item" onclick="showPage('stats')" id="ni-stats">
+          <div class="ndot" style="background:var(--pk1)"></div>Statistiques
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="ptitle">Tableau de bord 📊</div>
+        <div class="psub">Bienvenue sur PDF Manager Pro</div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--p3)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--p1)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="stat-v" id="sv-uploads">0</div>
+            <div class="stat-l">Fichiers uploadés</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--g2)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <div class="stat-v" id="sv-ops">0</div>
+            <div class="stat-l">Opérations effectuées</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--o2)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--o1)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="stat-v" id="sv-outputs">0</div>
+            <div class="stat-l">PDFs générés</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--b2)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stat-v" id="sv-hist">0</div>
+            <div class="stat-l">Entrées historique</div>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="cb-head">⚡ Dernières opérations</div>
+          <div id="dash-hist-content" style="padding:20px">
+            <div style="text-align:center;color:var(--muted);padding:16px">Aucune opération pour le moment</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MES FICHIERS -->
+      <div class="page" id="page-upload">
+        <div class="ptitle">Mes fichiers 📁</div>
+        <div class="psub">Uploadez et gérez vos fichiers PDF</div>
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div class="dz-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="dz-h">Glissez vos fichiers PDF ici</div>
+          <div class="dz-p">ou cliquez pour sélectionner — PDF uniquement</div>
+          <div class="upload-progress" id="uprog"><div class="upload-bar" id="ubar"></div></div>
+        </div>
+        <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="uploadFile(this)">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px">📄 Fichiers disponibles</div>
+        <div class="files-grid" id="files-grid">
+          <div style="color:var(--muted);font-size:14px">Aucun fichier uploadé</div>
+        </div>
+      </div>
+
+      <!-- OPERATIONS -->
+      <div class="page" id="page-operations">
+        <div class="ptitle">Opérations PDF ⚙️</div>
+        <div class="psub">Sélectionnez une opération</div>
+        <div class="ops-grid">
+          <div class="op-card" onclick="showOp('fusion')">
+            <div class="oc-icon" style="background:var(--p3)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--p1)" stroke-width="2"><path d="M8 6H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-3"/><rect x="8" y="2" width="8" height="6" rx="1"/></svg></div>
+            <div class="oc-label">Fusionner</div><div class="oc-sub">Combiner des PDFs</div>
+          </div>
+          <div class="op-card" onclick="showOp('decouper')">
+            <div class="oc-icon" style="background:var(--g2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div>
+            <div class="oc-label">Découper</div><div class="oc-sub">Extraire des pages</div>
+          </div>
+          <div class="op-card" onclick="showOp('extraire')">
+            <div class="oc-icon" style="background:var(--o2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--o1)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="oc-label">Extraire texte</div><div class="oc-sub">Copier le contenu</div>
+          </div>
+          <div class="op-card" onclick="showOp('image')">
+            <div class="oc-icon" style="background:var(--b2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div class="oc-label">Vers image</div><div class="oc-sub">Convertir en PNG</div>
+          </div>
+        </div>
+
+        <div class="panel" id="op-fusion">
+          <h3>🔗 Fusionner deux PDFs</h3>
+          <div class="fr"><label>Premier fichier</label><select id="f-f1"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Deuxième fichier</label><select id="f-f2"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-fout" value="fusion_resultat.pdf"></div>
+          <button class="btn btn-grad" onclick="fusionner()">Fusionner les PDFs</button>
+          <div class="result-box" id="r-fusion"></div>
+        </div>
+
+        <div class="panel" id="op-decouper">
+          <h3>✂️ Découper un PDF</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-dec"><option value="">-- Sélectionner --</option></select></div>
+          <div class="two-col">
+            <div class="fr"><label>Page de début</label><input type="number" id="f-ddeb" value="1" min="1"></div>
+            <div class="fr"><label>Page de fin</label><input type="number" id="f-dfin" value="3" min="1"></div>
+          </div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-dout" value="decoupe.pdf"></div>
+          <button class="btn btn-green" onclick="decouper()">Découper le PDF</button>
+          <div class="result-box" id="r-decouper"></div>
+        </div>
+
+        <div class="panel" id="op-extraire">
+          <h3>🔍 Extraire le texte</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-ext"><option value="">-- Sélectionner --</option></select></div>
+          <button class="btn btn-gold" onclick="extraireTexte()">Extraire le texte</button>
+          <div class="result-box" id="r-extraire"></div>
+        </div>
+
+        <div class="panel" id="op-image">
+          <h3>🖼️ Convertir en images PNG</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-img"><option value="">-- Sélectionner --</option></select></div>
+          <button class="btn btn-blue" onclick="versImage()">Convertir en PNG</button>
+          <div class="result-box" id="r-image"></div>
+        </div>
+      </div>
+
+      <!-- CREER PDF -->
+      <div class="page" id="page-creer">
+        <div class="ptitle">Créer un PDF ✍️</div>
+        <div class="psub">Générez un nouveau document PDF depuis du texte</div>
+        <div class="panel active">
+          <h3>📝 Nouveau document PDF</h3>
+          <div class="fr"><label>Titre du document</label><input type="text" id="c-titre" placeholder="Ex : Rapport mensuel"></div>
+          <div class="fr"><label>Contenu du document</label><textarea id="c-texte" placeholder="Écrivez votre contenu ici..." style="min-height:160px"></textarea></div>
+          <div class="fr"><label>Nom du fichier de sortie</label><input type="text" id="c-out" value="nouveau.pdf"></div>
+          <button class="btn btn-grad" onclick="creerPDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Créer le PDF
+          </button>
+          <div class="result-box" id="r-creer"></div>
+        </div>
+      </div>
+
+      <!-- HISTORIQUE -->
+      <div class="page" id="page-historique">
+        <div class="ptitle">Historique 📋</div>
+        <div class="psub">Toutes vos opérations PDF</div>
+        <div class="card-box">
+          <div class="cb-head">Journal des opérations</div>
+          <table class="htable">
+            <thead><tr><th>Opération</th><th>Fichier</th><th>Statut</th><th>Date</th></tr></thead>
+            <tbody id="hist-body"><tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px">Aucune opération</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div class="page" id="page-admin">
+        <div class="ptitle">Gestion fichiers 🗂️</div>
+        <div class="psub">Administrez tous les fichiers du système</div>
+        <div class="card-box">
+          <div class="cb-head">Fichiers uploadés</div>
+          <table class="htable">
+            <thead><tr><th>Nom</th><th>Taille</th><th>Actions</th></tr></thead>
+            <tbody id="admin-body"><tr><td colspan="3" style="text-align:center;color:var(--muted);padding:28px">Chargement...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="page" id="page-stats">
+        <div class="ptitle">Statistiques 📈</div>
+        <div class="psub">Vue d'ensemble complète du système</div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--p3)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--p1)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+            <div class="stat-v" id="ss-up">0</div><div class="stat-l">Total uploads</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--g2)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="stat-v" id="ss-ops">0</div><div class="stat-l">Total opérations</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--o2)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--o1)" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="stat-v" id="ss-out">0</div><div class="stat-l">PDFs générés</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic" style="background:var(--pk2)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--pk1)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div>
+            <div class="stat-v" id="ss-hist">0</div><div class="stat-l">Entrées historique</div>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="cb-head">Historique complet</div>
+          <table class="htable">
+            <thead><tr><th>Opération</th><th>Fichier</th><th>Statut</th><th>Date</th></tr></thead>
+            <tbody id="stats-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentRole = null;
+let uploadedFiles = [];
+
+function showLanding(){
+  document.getElementById('landing').style.display='flex';
+  document.getElementById('login-page').style.display='none';
+  document.getElementById('app').style.display='none';
+}
+function showLogin(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('login-page').style.display='block';
+  document.getElementById('app').style.display='none';
+}
+function showApp(role){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('login-page').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('app').style.flexDirection='column';
+  currentRole=role;
+  const b=document.getElementById('rbadge');
+  const u=document.getElementById('user-txt');
+  if(role==='admin'){
+    b.textContent='👑 Admin'; b.className='rbadge rb-admin';
+    u.textContent='Administrateur';
+    document.getElementById('admin-section').style.display='block';
+  } else {
+    b.textContent='👤 Client'; b.className='rbadge rb-client';
+    u.textContent='Utilisateur';
+    document.getElementById('admin-section').style.display='none';
+  }
+  loadFiles(); loadStats(); showPage('dashboard');
+}
+
+async function loginDirect(role){
+  await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:role,password:role})});
+  showApp(role); toast('Bienvenue ! 🎉','ok');
+}
+async function doLogin(){
+  const u=document.getElementById('lu').value;
+  const p=document.getElementById('lp').value;
+  const r=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+  const d=await r.json();
+  showApp(d.role);
+  toast(d.role==='admin'?'Connexion Admin réussie 👑':'Connexion réussie 🎉','ok');
+}
+function logout(){
+  fetch('/logout',{method:'POST'});
+  showLanding();
+}
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg) pg.classList.add('active');
+  const ni=document.getElementById('ni-'+name);
+  if(ni) ni.classList.add('active');
+  if(name==='admin') loadAdminFiles();
+  if(name==='stats'||name==='historique') loadStats();
+  if(name==='operations'||name==='upload') loadFiles();
+}
+
+async function loadFiles(){
+  try{
+    const r=await fetch('/fichiers');
+    const raw=await r.json();
+    // Gérer les deux formats : string[] ou {nom,taille,path}[]
+    uploadedFiles=raw.map(f=>{
+      if(typeof f==='string') return {nom:f, taille:'0', path:'uploads/'+f};
+      return f;
+    });
+    renderFilesGrid();
+    updateSelects();
+    document.getElementById('sv-uploads').textContent=uploadedFiles.length;
+  }catch(e){console.error(e);}
+}
+
+function renderFilesGrid(){
+  const g=document.getElementById('files-grid');
+  if(!uploadedFiles.length){
+    g.innerHTML='<div style="color:var(--muted);font-size:14px">Aucun fichier uploadé</div>';
+    return;
+  }
+  g.innerHTML=uploadedFiles.map(f=>`
+    <div class="file-card">
+      <div class="fc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--r1)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="fc-name">${f.nom}</div>
+      <div class="fc-size">${formatSize(parseInt(f.taille)||0)}</div>
+    </div>
+  `).join('');
+}
+
+function updateSelects(){
+  ['f-f1','f-f2','f-dec','f-ext','f-img'].forEach(id=>{
+    const s=document.getElementById(id);
+    if(!s) return;
+    s.innerHTML='<option value="">-- Sélectionner --</option>';
+    uploadedFiles.forEach(f=>{
+      const o=document.createElement('option');
+      o.value=f.path;
+      o.textContent=f.nom;
+      s.appendChild(o);
+    });
+  });
+}
+
+async function uploadFile(input){
+  const file=input.files[0];
+  if(!file) return;
+  const prog=document.getElementById('uprog');
+  const bar=document.getElementById('ubar');
+  prog.style.display='block';
+  bar.style.width='30%';
+  const fd=new FormData();
+  fd.append('file',file);
+  try{
+    bar.style.width='70%';
+    const r=await fetch('/upload',{method:'POST',body:fd});
+    bar.style.width='100%';
+    const d=await r.json();
+    setTimeout(()=>{prog.style.display='none';bar.style.width='0';},500);
+    if(d.status==='ok'){
+      toast('Fichier uploadé : '+d.filename+' ✅','ok');
+      loadFiles();
+    }
+  }catch(e){
+    prog.style.display='none';
+    toast('Erreur upload ❌','err');
+  }
+}
+
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault(); dz.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.name.endsWith('.pdf')){
+    const dt=new DataTransfer(); dt.items.add(f);
+    document.getElementById('fileInput').files=dt.files;
+    uploadFile(document.getElementById('fileInput'));
+  }
+});
+
+function showOp(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.op-card').forEach(o=>o.classList.remove('active'));
+  document.getElementById('op-'+name).classList.add('active');
+}
+
+function showResult(id,data,isOk){
+  const b=document.getElementById(id);
+  b.style.display='block';
+  b.className='result-box '+(isOk?'res-ok':'res-err');
+  if(isOk&&data.fichier){
+    const fn=data.fichier.split('/').pop();
+    b.innerHTML='<p>✅ '+(data.message||'Succès')+'</p><a class="dl-btn" href="/download/'+fn+'" download>⬇ Télécharger '+fn+'</a>';
+  } else if(isOk&&data.texte){
+    b.innerHTML='<p>✅ Texte extrait ('+(data.pages||'?')+' page(s)) :</p><pre>'+data.texte+'</pre>';
+  } else if(isOk){
+    b.innerHTML='<p>✅ '+(data.message||'Succès')+'</p>';
+  } else {
+    b.innerHTML='<p>❌ Erreur : '+(data.error||'Inconnue')+'</p>';
+  }
+}
+
+async function fusionner(){
+  const f1=document.getElementById('f-f1').value;
+  const f2=document.getElementById('f-f2').value;
+  const out=document.getElementById('f-fout').value;
+  if(!f1||!f2){toast('Sélectionnez deux fichiers ⚠️','err');return;}
+  const r=await fetch('/fusionner',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier1:f1,fichier2:f2,sortie:out})});
+  const d=await r.json();
+  showResult('r-fusion',d,!!d.status);
+  toast(d.status?'Fusion réussie ✅':'Erreur de fusion ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function decouper(){
+  const f=document.getElementById('f-dec').value;
+  const debut=parseInt(document.getElementById('f-ddeb').value);
+  const fin=parseInt(document.getElementById('f-dfin').value);
+  const out=document.getElementById('f-dout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/decouper',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,debut,fin,sortie:out})});
+  const d=await r.json();
+  showResult('r-decouper',d,!!d.status);
+  toast(d.status?'Découpage réussi ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function extraireTexte(){
+  const f=document.getElementById('f-ext').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/extraire-texte',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f})});
+  const d=await r.json();
+  showResult('r-extraire',d,!!d.status);
+  loadStats();
+}
+
+async function versImage(){
+  const f=document.getElementById('f-img').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/vers-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f})});
+  const d=await r.json();
+  showResult('r-image',d,!!d.status);
+  toast(d.status?'Conversion réussie ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function creerPDF(){
+  const titre=document.getElementById('c-titre').value;
+  const texte=(titre?titre+'\n\n':'')+document.getElementById('c-texte').value;
+  const out=document.getElementById('c-out').value;
+  if(!texte.trim()){toast('Écrivez du contenu ⚠️','err');return;}
+  const r=await fetch('/creer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({texte,sortie:out})});
+  const d=await r.json();
+  showResult('r-creer',d,!!d.status);
+  toast(d.status?'PDF créé ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function loadStats(){
+  try{
+    const r=await fetch('/admin/stats');
+    const d=await r.json();
+    const hist=d.historique||[];
+    document.getElementById('sv-ops').textContent=d.totalOps||0;
+    document.getElementById('sv-hist').textContent=hist.length;
+    document.getElementById('ss-up').textContent=d.totalUploads||0;
+    document.getElementById('ss-ops').textContent=d.totalOps||0;
+    document.getElementById('ss-hist').textContent=hist.length;
+
+    try{
+      const ro=await fetch('/outputs');
+      const outs=await ro.json();
+      document.getElementById('sv-outputs').textContent=outs.length;
+      document.getElementById('ss-out').textContent=outs.length;
+    }catch(e){}
+
+    const rows=hist.slice(0,5).map(h=>`<tr>
+      <td>${h.operation}</td>
+      <td style="color:var(--muted)">${h.fichier.split('/').pop()}</td>
+      <td><span class="badge ${h.statut==='OK'?'b-ok':'b-err'}">${h.statut}</span></td>
+      <td style="color:var(--muted)">${h.date}</td>
+    </tr>`).join('');
+
+    document.getElementById('dash-hist-content').innerHTML=hist.length?
+      '<table class="htable"><thead><tr><th>Opération</th><th>Fichier</th><th>Statut</th><th>Date</th></tr></thead><tbody>'+rows+'</tbody></table>':
+      '<div style="text-align:center;color:var(--muted);padding:20px">Aucune opération</div>';
+
+    const allRows=hist.map(h=>`<tr>
+      <td>${h.operation}</td>
+      <td style="color:var(--muted)">${h.fichier.split('/').pop()}</td>
+      <td><span class="badge ${h.statut==='OK'?'b-ok':'b-err'}">${h.statut}</span></td>
+      <td style="color:var(--muted)">${h.date}</td>
+    </tr>`).join('');
+    document.getElementById('hist-body').innerHTML=hist.length?allRows:'<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:28px">Aucune opération</td></tr>';
+    const sb=document.getElementById('stats-body');
+    if(sb) sb.innerHTML=document.getElementById('hist-body').innerHTML;
+  }catch(e){console.error(e);}
+}
+
+async function loadAdminFiles(){
+  try{
+    const r=await fetch('/fichiers');
+    const raw=await r.json();
+    const files=raw.map(f=>typeof f==='string'?{nom:f,taille:'0'}:f);
+    const b=document.getElementById('admin-body');
+    b.innerHTML=files.length?files.map(f=>`<tr>
+      <td>${f.nom}</td>
+      <td style="color:var(--muted)">${formatSize(parseInt(f.taille)||0)}</td>
+      <td><button class="btn btn-red btn-sm" onclick="supprimerFichier('${f.nom}')">🗑 Supprimer</button></td>
+    </tr>`).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:28px">Aucun fichier</td></tr>';
+  }catch(e){}
+}
+
+async function supprimerFichier(nom){
+  if(!confirm('Supprimer '+nom+' ?')) return;
+  await fetch('/admin/fichier/'+nom,{method:'DELETE'});
+  toast('Fichier supprimé 🗑','info');
+  loadAdminFiles(); loadFiles();
+}
+
+function formatSize(b){
+  if(!b||b===0) return '—';
+  if(b<1024) return b+' B';
+  if(b<1048576) return (b/1024).toFixed(1)+' KB';
+  return (b/1048576).toFixed(1)+' MB';
+}
+
+function toast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast toast-'+type+' show';
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+showLanding();
+</script>
+</body>
+</html>
