@@ -1,11 +1,11 @@
-FROM maven:3.8.7-openjdk-8 AS build
+FROM maven:3.8-openjdk-11 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 COPY public ./public
-RUN mvn package -q
+RUN mvn package -q -DskipTests
 
-FROM openjdk:8-jre-slim
+FROM openjdk:11-jre-slim
 WORKDIR /app
 COPY --from=build /app/target/pdf-manager-1.0.jar app.jar
 COPY --from=build /app/public ./public
