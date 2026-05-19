@@ -413,6 +413,42 @@ svg{display:block;flex-shrink:0}
             <div class="oc-icon" style="background:var(--b2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <div class="oc-label">Vers image</div><div class="oc-sub">Convertir en PNG</div>
           </div>
+          <div class="op-card" onclick="showOp('supprimer')">
+            <div class="oc-icon" style="background:var(--r2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--r1)" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></div>
+            <div class="oc-label">Supprimer page</div><div class="oc-sub">Retirer une page</div>
+          </div>
+          <div class="op-card" onclick="showOp('mdp')">
+            <div class="oc-icon" style="background:var(--pk2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--pk1)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div class="oc-label">Mot de passe</div><div class="oc-sub">Protéger le PDF</div>
+          </div>
+          <div class="op-card" onclick="showOp('rotation')">
+            <div class="oc-icon" style="background:var(--g2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div>
+            <div class="oc-label">Rotation</div><div class="oc-sub">Pivoter les pages</div>
+          </div>
+          <div class="op-card" onclick="showOp('filigrane')">
+            <div class="oc-icon" style="background:var(--o2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--o1)" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <div class="oc-label">Filigrane</div><div class="oc-sub">Ajouter un watermark</div>
+          </div>
+          <div class="op-card" onclick="showOp('numerotation')">
+            <div class="oc-icon" style="background:var(--b2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+            <div class="oc-label">Numérotation</div><div class="oc-sub">Numéroter les pages</div>
+          </div>
+          <div class="op-card" onclick="showOp('compression')">
+            <div class="oc-icon" style="background:var(--p3)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--p1)" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg></div>
+            <div class="oc-label">Compression</div><div class="oc-sub">Réduire la taille</div>
+          </div>
+          <div class="op-card" onclick="showOp('inverser')">
+            <div class="oc-icon" style="background:var(--g2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--g1)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div>
+            <div class="oc-label">Inverser pages</div><div class="oc-sub">Renverser l ordre</div>
+          </div>
+          <div class="op-card" onclick="showOp('metadonnees')">
+            <div class="oc-icon" style="background:var(--pk2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--pk1)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="oc-label">Métadonnées</div><div class="oc-sub">Infos du document</div>
+          </div>
+          <div class="op-card" onclick="showOp('wordpdf')">
+            <div class="oc-icon" style="background:var(--b2)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--b1)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="oc-label">Word → PDF</div><div class="oc-sub">Convertir .txt/.docx</div>
+          </div>
         </div>
 
         <div class="panel" id="op-fusion">
@@ -448,6 +484,86 @@ svg{display:block;flex-shrink:0}
           <div class="fr"><label>Fichier PDF</label><select id="f-img"><option value="">-- Sélectionner --</option></select></div>
           <button class="btn btn-blue" onclick="versImage()">Convertir en PNG</button>
           <div class="result-box" id="r-image"></div>
+        </div>
+
+        <div class="panel" id="op-supprimer">
+          <h3>🗑️ Supprimer une page</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-sup"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Numéro de page</label><input type="number" id="f-suppage" value="1" min="1"></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-supout" value="sans_page.pdf"></div>
+          <button class="btn btn-red" onclick="supprimerPage()">🗑️ Supprimer la page</button>
+          <div class="result-box" id="r-supprimer"></div>
+        </div>
+
+        <div class="panel" id="op-mdp">
+          <h3>🔒 Protéger par mot de passe</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-mdp"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Mot de passe</label><input type="password" id="f-mdpval" placeholder="Entrez un mot de passe"></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-mdpout" value="protege.pdf"></div>
+          <button class="btn btn-pink" onclick="motDePasse()">🔒 Protéger le PDF</button>
+          <div class="result-box" id="r-mdp"></div>
+        </div>
+
+        <div class="panel" id="op-rotation">
+          <h3>🔄 Rotation des pages</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-rot"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Angle de rotation</label>
+            <select id="f-rotangle">
+              <option value="90">90° (sens horaire)</option>
+              <option value="180">180° (retournement)</option>
+              <option value="270">270° (sens anti-horaire)</option>
+            </select>
+          </div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-rotout" value="rotation.pdf"></div>
+          <button class="btn btn-green" onclick="rotation()">🔄 Appliquer rotation</button>
+          <div class="result-box" id="r-rotation"></div>
+        </div>
+
+        <div class="panel" id="op-filigrane">
+          <h3>💧 Ajouter un filigrane</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-fil"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Texte du filigrane</label><input type="text" id="f-filtexte" placeholder="Ex: CONFIDENTIEL, DRAFT..."></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-filout" value="filigrane.pdf"></div>
+          <button class="btn btn-gold" onclick="filigrane()">💧 Ajouter filigrane</button>
+          <div class="result-box" id="r-filigrane"></div>
+        </div>
+
+        <div class="panel" id="op-numerotation">
+          <h3>🔢 Numéroter les pages</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-num"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-numout" value="numerote.pdf"></div>
+          <button class="btn btn-blue" onclick="numerotation()">🔢 Numéroter</button>
+          <div class="result-box" id="r-numerotation"></div>
+        </div>
+
+        <div class="panel" id="op-compression">
+          <h3>📦 Compresser un PDF</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-comp"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-compout" value="compresse.pdf"></div>
+          <button class="btn btn-grad" onclick="compresser()">📦 Compresser</button>
+          <div class="result-box" id="r-compression"></div>
+        </div>
+
+        <div class="panel" id="op-inverser">
+          <h3>🔃 Inverser l ordre des pages</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-inv"><option value="">-- Sélectionner --</option></select></div>
+          <div class="fr"><label>Fichier de sortie</label><input type="text" id="f-invout" value="inverse.pdf"></div>
+          <button class="btn btn-green" onclick="inverser()">🔃 Inverser</button>
+          <div class="result-box" id="r-inverser"></div>
+        </div>
+
+        <div class="panel" id="op-metadonnees">
+          <h3>ℹ️ Métadonnées du PDF</h3>
+          <div class="fr"><label>Fichier PDF</label><select id="f-meta"><option value="">-- Sélectionner --</option></select></div>
+          <button class="btn btn-pink" onclick="metadonnees()">ℹ️ Lire les métadonnées</button>
+          <div class="result-box" id="r-metadonnees"></div>
+        </div>
+
+        <div class="panel" id="op-wordpdf">
+          <h3>📄 Convertir fichier texte en PDF</h3>
+          <div class="fr"><label>Fichier .txt ou .docx</label><input type="file" id="f-word" accept=".txt,.docx"></div>
+          <button class="btn btn-blue" onclick="wordVersPdf()">📄 Convertir en PDF</button>
+          <div class="result-box" id="r-wordpdf"></div>
         </div>
       </div>
 
@@ -579,7 +695,120 @@ async function doLogin(){
 }
 function logout(){
   fetch('/logout',{method:'POST'});
-  showLanding();
+  
+async function supprimerPage(){
+  const f=document.getElementById('f-sup').value;
+  const page=parseInt(document.getElementById('f-suppage').value);
+  const out=document.getElementById('f-supout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/supprimer-page',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,page,sortie:out})});
+  const d=await r.json();
+  showResult('r-supprimer',d,!!d.status);
+  toast(d.status?'Page supprimée ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function motDePasse(){
+  const f=document.getElementById('f-mdp').value;
+  const mdp=document.getElementById('f-mdpval').value;
+  const out=document.getElementById('f-mdpout').value;
+  if(!f||!mdp){toast('Fichier et mot de passe requis ⚠️','err');return;}
+  const r=await fetch('/mot-de-passe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,motdepasse:mdp,sortie:out})});
+  const d=await r.json();
+  showResult('r-mdp',d,!!d.status);
+  toast(d.status?'PDF protégé 🔒':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function rotation(){
+  const f=document.getElementById('f-rot').value;
+  const angle=parseInt(document.getElementById('f-rotangle').value);
+  const out=document.getElementById('f-rotout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/rotation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,angle,sortie:out})});
+  const d=await r.json();
+  showResult('r-rotation',d,!!d.status);
+  toast(d.status?'Rotation appliquée ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function filigrane(){
+  const f=document.getElementById('f-fil').value;
+  const texte=document.getElementById('f-filtexte').value;
+  const out=document.getElementById('f-filout').value;
+  if(!f||!texte){toast('Fichier et texte requis ⚠️','err');return;}
+  const r=await fetch('/filigrane',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,texte,sortie:out})});
+  const d=await r.json();
+  showResult('r-filigrane',d,!!d.status);
+  toast(d.status?'Filigrane ajouté ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function numerotation(){
+  const f=document.getElementById('f-num').value;
+  const out=document.getElementById('f-numout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/numerotation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-numerotation',d,!!d.status);
+  toast(d.status?'Pages numérotées ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function compresser(){
+  const f=document.getElementById('f-comp').value;
+  const out=document.getElementById('f-compout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/compresser',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-compression',d,!!d.status);
+  toast(d.status?'Compression OK ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function inverser(){
+  const f=document.getElementById('f-inv').value;
+  const out=document.getElementById('f-invout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/inverser',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-inverser',d,!!d.status);
+  toast(d.status?'Pages inversées ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function metadonnees(){
+  const f=document.getElementById('f-meta').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/metadonnees',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f})});
+  const d=await r.json();
+  if(d.status){
+    document.getElementById('r-metadonnees').innerHTML=
+      '<div style="background:var(--p3);border-radius:10px;padding:16px;margin-top:12px">'+
+      '<b>📋 Métadonnées :</b><br>'+
+      '📌 Titre : '+d.titre+'<br>'+
+      '✍️ Auteur : '+d.auteur+'<br>'+
+      '📎 Sujet : '+d.sujet+'<br>'+
+      '🛠️ Créateur : '+d.createur+'<br>'+
+      '📄 Pages : '+d.pages+'<br>'+
+      '💾 Taille : '+d.taille+
+      '</div>';
+  } else {
+    showResult('r-metadonnees',d,false);
+  }
+}
+
+async function wordVersPdf(){
+  const input=document.getElementById('f-word');
+  if(!input.files.length){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const fd=new FormData();fd.append('fichier',input.files[0]);
+  const r=await fetch('/word-vers-pdf',{method:'POST',body:fd});
+  const d=await r.json();
+  showResult('r-wordpdf',d,!!d.status);
+  toast(d.status?'Converti en PDF ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+showLanding();
 }
 
 function showPage(name){
@@ -830,6 +1059,119 @@ function toast(msg,type='info'){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
+
+async function supprimerPage(){
+  const f=document.getElementById('f-sup').value;
+  const page=parseInt(document.getElementById('f-suppage').value);
+  const out=document.getElementById('f-supout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/supprimer-page',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,page,sortie:out})});
+  const d=await r.json();
+  showResult('r-supprimer',d,!!d.status);
+  toast(d.status?'Page supprimée ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function motDePasse(){
+  const f=document.getElementById('f-mdp').value;
+  const mdp=document.getElementById('f-mdpval').value;
+  const out=document.getElementById('f-mdpout').value;
+  if(!f||!mdp){toast('Fichier et mot de passe requis ⚠️','err');return;}
+  const r=await fetch('/mot-de-passe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,motdepasse:mdp,sortie:out})});
+  const d=await r.json();
+  showResult('r-mdp',d,!!d.status);
+  toast(d.status?'PDF protégé 🔒':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function rotation(){
+  const f=document.getElementById('f-rot').value;
+  const angle=parseInt(document.getElementById('f-rotangle').value);
+  const out=document.getElementById('f-rotout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/rotation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,angle,sortie:out})});
+  const d=await r.json();
+  showResult('r-rotation',d,!!d.status);
+  toast(d.status?'Rotation appliquée ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function filigrane(){
+  const f=document.getElementById('f-fil').value;
+  const texte=document.getElementById('f-filtexte').value;
+  const out=document.getElementById('f-filout').value;
+  if(!f||!texte){toast('Fichier et texte requis ⚠️','err');return;}
+  const r=await fetch('/filigrane',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,texte,sortie:out})});
+  const d=await r.json();
+  showResult('r-filigrane',d,!!d.status);
+  toast(d.status?'Filigrane ajouté ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function numerotation(){
+  const f=document.getElementById('f-num').value;
+  const out=document.getElementById('f-numout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/numerotation',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-numerotation',d,!!d.status);
+  toast(d.status?'Pages numérotées ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function compresser(){
+  const f=document.getElementById('f-comp').value;
+  const out=document.getElementById('f-compout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/compresser',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-compression',d,!!d.status);
+  toast(d.status?'Compression OK ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function inverser(){
+  const f=document.getElementById('f-inv').value;
+  const out=document.getElementById('f-invout').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/inverser',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f,sortie:out})});
+  const d=await r.json();
+  showResult('r-inverser',d,!!d.status);
+  toast(d.status?'Pages inversées ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
+
+async function metadonnees(){
+  const f=document.getElementById('f-meta').value;
+  if(!f){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const r=await fetch('/metadonnees',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fichier:f})});
+  const d=await r.json();
+  if(d.status){
+    document.getElementById('r-metadonnees').innerHTML=
+      '<div style="background:var(--p3);border-radius:10px;padding:16px;margin-top:12px">'+
+      '<b>📋 Métadonnées :</b><br>'+
+      '📌 Titre : '+d.titre+'<br>'+
+      '✍️ Auteur : '+d.auteur+'<br>'+
+      '📎 Sujet : '+d.sujet+'<br>'+
+      '🛠️ Créateur : '+d.createur+'<br>'+
+      '📄 Pages : '+d.pages+'<br>'+
+      '💾 Taille : '+d.taille+
+      '</div>';
+  } else {
+    showResult('r-metadonnees',d,false);
+  }
+}
+
+async function wordVersPdf(){
+  const input=document.getElementById('f-word');
+  if(!input.files.length){toast('Sélectionnez un fichier ⚠️','err');return;}
+  const fd=new FormData();fd.append('fichier',input.files[0]);
+  const r=await fetch('/word-vers-pdf',{method:'POST',body:fd});
+  const d=await r.json();
+  showResult('r-wordpdf',d,!!d.status);
+  toast(d.status?'Converti en PDF ✅':'Erreur ❌',d.status?'ok':'err');
+  loadStats();
+}
 showLanding();
 </script>
 </body>
