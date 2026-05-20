@@ -264,8 +264,13 @@ public class App {
                     PDPageContentStream cs=new PDPageContentStream(doc,page);
                     cs.setFont(PDType1Font.HELVETICA,11);cs.beginText();cs.newLineAtOffset(50,750);
                     for(int i=0;i<40&&idx<lignes.length;i++,idx++){
-                        String safe="";for(char c:lignes[idx].toCharArray())safe+=(c<128)?c:'?';
-                        cs.showText(safe);cs.newLineAtOffset(0,-18);
+                        String safe="";
+                        for(char c:lignes[idx].toCharArray()){
+                            if(c>=32&&c<127) safe+=c;
+                            else if(c==9) safe+="  ";
+                        }
+                        if(!safe.isEmpty()){cs.showText(safe);}
+                        cs.newLineAtOffset(0,-18);
                     }
                     cs.endText();cs.close();
                 }
