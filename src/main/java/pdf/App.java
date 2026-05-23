@@ -2,6 +2,9 @@ package pdf;
 import static spark.Spark.*;
 import com.google.gson.Gson;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.*;
@@ -256,7 +259,30 @@ public class App {
                 Files.copy(is,Paths.get(docPath),StandardCopyOption.REPLACE_EXISTING);is.close();
                 String pdfName=fn.replaceAll("\\.(docx?|txt)$","")+".pdf";
                 String pdfPath=OUTPUT_DIR+"/"+pdfName;
-                String contenu=new String(Files.readAllBytes(Paths.get(docPath)));
+
+                // Extraire le texte selon le type de fichier
+                String contenu="";
+                if(fn.endsWith(".docx")){
+                    // Lire fichier .docx avec Apache POI
+                    XWPFDocument docx=new XWPFDocument(new FileInputStream(docPath));
+                    StringBuilder sb=new StringBuilder();
+                    for(XWPFParagraph p:docx.getParagraphs()){
+                        sb.append(p.getText()).append("\n");
+                    }
+                    docx.close();
+                    contenu=sb.toString();
+                } else if(fn.endsWith(".doc")){
+                    // Lire fichier .doc avec Apache POI
+                    HWPFDocument doc2=new HWPFDocument(new FileInputStream(docPath));
+                    WordExtractor ex=new WordExtractor(doc2);
+                    contenu=ex.getText();
+                    ex.close();doc2.close();
+                } else {
+                    // Fichier texte simple
+                    contenu=new String(Files.readAllBytes(Paths.get(docPath)));
+                }
+
+                // Créer le PDF
                 PDDocument doc=new PDDocument();
                 String[] lignes=contenu.split("\n");int idx=0;
                 while(idx<lignes.length){
@@ -267,15 +293,15 @@ public class App {
                         String safe="";
                         for(char c:lignes[idx].toCharArray()){
                             if(c>=32&&c<127) safe+=c;
-                            else if(c==9) safe+="  ";
+                            else if(c==9) safe+="    ";
                         }
-                        if(!safe.isEmpty()){cs.showText(safe);}
-                        cs.newLineAtOffset(0,-18);
+                        cs.showText(safe);cs.newLineAtOffset(0,-18);
                     }
                     cs.endText();cs.close();
                 }
                 doc.save(pdfPath);doc.close();
-                addH("Word vers PDF",pdfName,"OK");res.type("application/json");return gson.toJson(ok("Converti en PDF",pdfPath));
+                addH("Word vers PDF",pdfName,"OK");
+                res.type("application/json");return gson.toJson(ok("Converti en PDF",pdfPath));
             }catch(Exception e){res.status(500);return gson.toJson(err(e.getMessage()));}
         });
         get("/download/:fn",(req,res)->{
